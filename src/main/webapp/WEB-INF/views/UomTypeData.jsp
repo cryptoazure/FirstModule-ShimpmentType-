@@ -18,6 +18,7 @@
 					<th>TYPE</th>
 					<th>MODEL</th>
 					<th>DESC</th>
+					<th colspan="2">Operation</th>
 
 				</tr>
 				<c:forEach items="${list}" var="ob">
@@ -27,7 +28,8 @@
 						<td>${ob.uomMod}</td>
 						<td>${ob.uomDesc}</td>
 
-						<td><a href="alldelete?uid=${ob.uomId}">DELETE</a></td>
+						<td><a href="delete?uid=${ob.uomId}">DELETE</a></td>
+						<td><a href="edit?sid=${ob.uomId}">EDIT</a></td>
 					</tr>
 				</c:forEach>
 

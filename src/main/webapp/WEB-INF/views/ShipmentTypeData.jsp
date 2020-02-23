@@ -20,7 +20,7 @@
 					<th>ENABLE</th>
 					<th>GRADE</th>
 					<th>NOTE</th>
-					<th>Operations</th>
+					<th colspan="3">Operations</th>
 				</tr>
 				<c:forEach items="${list}" var="ob">
 					<tr>
@@ -36,6 +36,9 @@
 						</td>
 						<td>
 						<a href="edit?sid=${ob.shipId}">EDIT</a>
+						</td>
+						<td>
+						<a href="excel">Excel Export</a>
 						</td>
 
 					</tr>

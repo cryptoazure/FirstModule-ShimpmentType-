@@ -24,40 +24,14 @@ public class ShipmentTypeServiceImpl implements IShipmentTypeService {
 
 	}
 
-	@Transactional(readOnly=true)
-	public List<ShipmentType> getAllShipmentType() {
-
-		List<ShipmentType> list=dao.getAllShipmentType();
-		Collections.sort(list,(o1,o2)->o1.getShipId()-o2.getShipId());
-		return list;
-	}
+	
 	@Transactional
 	public void deleteShipmentType(Integer id) {
 		dao.deleteShipmentType(id);
 
 	}
 
-	@Transactional 
-	public Integer saveUom(Uom um) {
-
-		return dao.saveUom(um);
-	}
-
-
-	@Transactional(readOnly=true)
-	public List<Uom> getAllUom() { 
-		List<Uom> list=dao.getAllUom(); //
-		Collections.sort(list,(o1,o2)->o1.getUomId()-o2.getUomId());
-		return list;
-	}
-
-
-
-	@Transactional public void deleteUomType(Integer ide) {
-		dao.deleteUomType(ide);
-
-	}
-
+	
 	@Transactional
 	public ShipmentType getOneShipmentType(Integer id) {
 
@@ -68,6 +42,13 @@ public class ShipmentTypeServiceImpl implements IShipmentTypeService {
 	public void updateShipmentType(ShipmentType ob) {
 		dao.updateShipmentType(ob);
 		
+	}
+	@Transactional(readOnly=true)
+	public List<ShipmentType> getAllShipmentType() {
+
+		List<ShipmentType> list=dao.getAllShipmentType();
+		Collections.sort(list,(o1,o2)->o1.getShipId()-o2.getShipId());
+		return list;
 	}
 
 

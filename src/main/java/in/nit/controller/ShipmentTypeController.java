@@ -9,10 +9,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import in.nit.model.ShipmentType;
-import in.nit.model.Uom;
 import in.nit.service.IShipmentTypeService;
+import in.nit.view.ShipmentTypeExcelView;
 
 @Controller
 @RequestMapping("/shipment")
@@ -23,7 +24,7 @@ public class ShipmentTypeController {
 
 	/**
 	 * shipment/register this method is used to display ShipmentType register page
-	 * on URL:/register,GET
+	 * on URL:/register,GETO
 	 * shipment/register
 	 * shipment/reguom
 	 */
@@ -53,13 +54,13 @@ public class ShipmentTypeController {
 		return "ShipmentTypeRegister";
 	}
 	/*
-	 * to fetch data from datbase
+	 * to fetch data from database
 	 */
 	@RequestMapping("/all")
 	public String getAllShipmentType(Model model) {
 		List<ShipmentType> list=service.getAllShipmentType();
 		model.addAttribute("list",list);
-				return "ShipmentTypeData";
+		return "ShipmentTypeData";
 	}
 	/**
 	 * delete operation for shipment Module
@@ -69,18 +70,18 @@ public class ShipmentTypeController {
 	 */
 	@RequestMapping("/delete")
 	public String deleteShipmentType(
-									@RequestParam("sid")Integer id,
-									Model model
-									) {
+			@RequestParam("sid")Integer id,
+			Model model
+			) {
 		service.deleteShipmentType(id);
 		String message="ShipmentType  '"+id+"'   deleted";
 		model.addAttribute("message",message);
-		
+
 		//fetch new data
 		List<ShipmentType> list=service.getAllShipmentType();
 		model.addAttribute("list",list);
 		return "ShipmentTypeData";
-		
+
 	}
 	/**
 	 * to get the edit page based on given id
@@ -96,72 +97,31 @@ public class ShipmentTypeController {
 		model.addAttribute("shipmentType",st);
 		return "ShipmentTypeEdit";
 	}
-	
+
 	@RequestMapping(value="/update",method=RequestMethod.POST)
 	public String updateShipmentType(@ModelAttribute ShipmentType shipmentType,
-									Model model
+			Model model
 			) {
-		String msg="ShipmentType    '"+shipmentType.getShipId()+"' updated";
+		String msg= "  ShipmentType  '"+shipmentType.getShipId()+"'  updated";
 		model.addAttribute("list",msg);
 		service.updateShipmentType(shipmentType);
 		return "ShipmentTypeEdit";
 	}
-	
-	
-	
-	/***
-	 * Operation for Uom Type Module
-	 * @return
-	 */
-	
-	@RequestMapping("/reguom")
-	public String showUomTypePage() {
-		return "UomType";
-	}
-   
-	/*
-	 * save operation for Uom module
-	 */
-    @RequestMapping(value = "/saveuom", method = RequestMethod.POST)
-	public String saveUom(@ModelAttribute Uom uom, 
-							Model model) {
-		Integer id = service.saveUom(uom);
-		String message = "UomTyp  '"+ id+ "'     +saved...";
-		model.addAttribute("uom", message);
+/**
+ * Excel method 
+ * method Type:GET,URL:/excel
+ * 
+ */@RequestMapping("/excel")
+	public ModelAndView showExcel() {
+		ModelAndView m=new ModelAndView();
+		m.setView(new ShipmentTypeExcelView());
+		//fetch from db
+		List<ShipmentType> list=service.getAllShipmentType();
+		m.addObject("list",list);
+		return m;
 
-		return "UomType";
 	}
-	/**
-	 *  to get data from database for Uom module
-	 * @param model
-	 * @return
-	 */
-    @RequestMapping("/alluom")
-	public String getAllUomType(Model model) {
-		List<Uom> list=service.getAllUom();
-		model.addAttribute("list",list);
-				return "UomTypeData";
-	}
-    /*
-     * Delete Operauon for Uom module
-     * 
-    
-    */ 
-	@RequestMapping("/alldelete")
-	public String deleteUomType(
-								@RequestParam("uid")Integer ide,
-									Model model
-									) {
-		service.deleteUomType(ide);
-		String message="UomType  '"+ide+"'   deleted";
-		model.addAttribute("message",message);
-		
-		//fetch new data
-		List<Uom> list=service.getAllUom();
-		model.addAttribute("list",list);
-				return "UomTypeData";
-				}
-	
 
-    
+
+
 }

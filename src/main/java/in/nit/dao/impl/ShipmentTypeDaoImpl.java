@@ -34,25 +34,6 @@ public class ShipmentTypeDaoImpl implements IShipmentTypeDao {
 
 	}
 
-	
-	  @Override public Integer saveUom(Uom um) {
-	  
-	  return (Integer) ht.save(um); }
-
-	
-	 @Override
-	 public List<Uom> getAllUom() {
-		 // TODO Auto-generated method stub
-	 return ht.loadAll(Uom.class); 
-	 }
-
-	
-	
-	 @Override 
-	 public void deleteUomType(Integer ide) {
-		 ht.delete(new Uom(ide));
-		 }
-
 	@Override
 	public ShipmentType getOneShipmentType(Integer id) {
 		
@@ -64,8 +45,8 @@ public class ShipmentTypeDaoImpl implements IShipmentTypeDao {
 		ht.update(ob);
 		
 	}
+
 	
-	 
 	
 	 	
 

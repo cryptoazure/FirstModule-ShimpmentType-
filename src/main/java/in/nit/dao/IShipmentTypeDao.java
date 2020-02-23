@@ -11,8 +11,7 @@ public interface IShipmentTypeDao {
 	public void deleteShipmentType(Integer id);
 	ShipmentType getOneShipmentType(Integer id);
 	public void updateShipmentType(ShipmentType ob);
-	Integer saveUom(Uom um);
-	List<Uom> getAllUom();
-	public void deleteUomType(Integer ide);
-
+	
+	
+	
 }

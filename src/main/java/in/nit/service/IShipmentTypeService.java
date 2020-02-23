@@ -9,12 +9,11 @@ public interface IShipmentTypeService {
 	Integer saveShipmentType(ShipmentType ob);
 	List<ShipmentType> getAllShipmentType();
 	public void deleteShipmentType(Integer id);
+	
 	public ShipmentType getOneShipmentType(Integer id);
 	public void updateShipmentType(ShipmentType ob);
-	Integer saveUom(Uom um);
-	List<Uom> getAllUom();
-   public void deleteUomType(Integer ide);
-
+	
+	
 
 }
 	

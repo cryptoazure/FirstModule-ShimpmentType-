@@ -5,12 +5,12 @@
 <html>
 <body>
 	<h3>
-		<br>Shipment Type Register Page
+		<br>Shipment Type Register Page<br>
 	</h3>
-	<form:form action="save" method="post" modelAttribute="shipmentType">
+	<form:form action="edit" method="post" modelAttribute="shipmentType">
 		<pre>
 		Shipment Id:
-		<form:input path="shipId" readonly="true"/>
+		<form:input path="shipId" readonly="true" />
 		Shipment Mode:
 		<form:select path="shipMode">
 			<form:option value="">--select--</form:option>

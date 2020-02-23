@@ -17,22 +17,21 @@
 			<form:option value="Train">Train</form:option>
 			<form:option value="Ship">Ship</form:option>
 	    </form:select>
-	    Shipment Code:
+	     Shipment Code:
 	    	<form:input path="shipCode" />
-	Enable Shipment:
-	       <form:select path="enbShip">
-	       	<form:option value="">--select--</form:option>
-	       	<form:option value="Yes">Yes</form:option>
-	       	<form:option value="No">No</form:option> 
-	       </form:select>
-	 Shipment Grade:
+		 Enable Shipment:
+		       <form:select path="enbShip">
+		       	<form:option value="">--select--</form:option>
+		       	<form:option value="Yes">Yes</form:option>
+		       	<form:option value="No">No</form:option> 
+		       </form:select>
+		 Shipment Grade:
 	  		<form:radiobutton path="shipGrad" value="A" />A
 		    <form:radiobutton path="shipGrad" value="B" />B
 		    <form:radiobutton path="shipGrad" value="C" />C
-		Description:
+		 Description:
 		<form:textarea path="shipDesc" />
 			<input type="submit" value="CREATE" />
-	
 	</pre>
 	</form:form>
 	${msg}
