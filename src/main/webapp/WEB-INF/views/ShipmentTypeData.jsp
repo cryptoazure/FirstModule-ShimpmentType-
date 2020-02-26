@@ -10,6 +10,8 @@
 </head>
 <body>
 	<h3>WELCOME TO SHIPMENT TYPE DATA PAGE</h3>
+	<a href="excel">Excel Export</a>
+	<a href="pdf">PDF Export</a>
 	<c:choose>
 		<c:when test="${!empty list }">
 			<table border="1">
@@ -38,7 +40,7 @@
 						<a href="edit?sid=${ob.shipId}">EDIT</a>
 						</td>
 						<td>
-						<a href="excel">Excel Export</a>
+						<a href="view?sid=${ob.shipId}">VIEW</a>
 						</td>
 
 					</tr>

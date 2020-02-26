@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import in.nit.model.ShipmentType;
 import in.nit.service.IShipmentTypeService;
 import in.nit.view.ShipmentTypeExcelView;
+import in.nit.view.ShipmentTypePdfView;
 
 @Controller
 @RequestMapping("/shipment")
@@ -24,19 +25,18 @@ public class ShipmentTypeController {
 
 	/**
 	 * shipment/register this method is used to display ShipmentType register page
-	 * on URL:/register,GETO
-	 * shipment/register
-	 * shipment/reguom
+	 * on URL:/register,GETO shipment/register shipment/reguom
 	 */
 
-	/** 1.ShipmentTypeModule
-	 * Method Format:- public String <anyMethodName>(){ return "PageName"; }
+	/**
+	 * 1.ShipmentTypeModule Method Format:- public String <anyMethodName>(){ return
+	 * "PageName"; }
 	 */
 
 	@RequestMapping("/register")
 	public String showRegPage(Model model) {
-		//FORM BACKING OBJECT
-		model.addAttribute("shipmentType",new ShipmentType());
+		// FORM BACKING OBJECT
+		model.addAttribute("shipmentType", new ShipmentType());
 		return "ShipmentTypeRegister";
 	}
 	/*
@@ -44,84 +44,115 @@ public class ShipmentTypeController {
 	 */
 
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public String saveShipmentType(@ModelAttribute ShipmentType shipmentType, Model model) {
+	public String saveShipmentType(
+								   @ModelAttribute ShipmentType shipmentType,
+								   Model model) {
 		Integer id = service.saveShipmentType(shipmentType);
-		String message = "ShipmentType '"+ id+ "'+saved...";
+		String message = "ShipmentType '" + id + "'+saved...";
 		model.addAttribute("msg", message);
-		//FORM BACKING OBJECT
-		model.addAttribute("shipmentType",new ShipmentType());
+		// FORM BACKING OBJECT
+		model.addAttribute("shipmentType", new ShipmentType());
 
 		return "ShipmentTypeRegister";
 	}
+
 	/*
 	 * to fetch data from database
 	 */
 	@RequestMapping("/all")
 	public String getAllShipmentType(Model model) {
-		List<ShipmentType> list=service.getAllShipmentType();
-		model.addAttribute("list",list);
+		List<ShipmentType> list = service.getAllShipmentType();
+		model.addAttribute("list", list);
 		return "ShipmentTypeData";
 	}
+
 	/**
 	 * delete operation for shipment Module
+	 * 
 	 * @param id
 	 * @param model
 	 * @return
 	 */
 	@RequestMapping("/delete")
 	public String deleteShipmentType(
-			@RequestParam("sid")Integer id,
-			Model model
-			) {
+									@RequestParam("sid") Integer id, 
+									Model model) {
 		service.deleteShipmentType(id);
-		String message="ShipmentType  '"+id+"'   deleted";
-		model.addAttribute("message",message);
+		String message = "ShipmentType  '" + id + "'   deleted";
+		model.addAttribute("message", message);
 
-		//fetch new data
-		List<ShipmentType> list=service.getAllShipmentType();
-		model.addAttribute("list",list);
+		// fetch new data
+		List<ShipmentType> list = service.getAllShipmentType();
+		model.addAttribute("list", list);
 		return "ShipmentTypeData";
 
 	}
+
 	/**
-	 * to get the edit page based on given id
-	 * url:/edit
+	 * to get the edit page based on given id url:/edit
 	 * 
 	 */
 	@RequestMapping("/edit")
 	public String showEditPage(
-								@RequestParam("sid")Integer id,
-								Model model
-			) {
-		ShipmentType st=service.getOneShipmentType(id);
-		model.addAttribute("shipmentType",st);
+							   @RequestParam("sid") Integer id, 
+							   Model model) {
+		ShipmentType st = service.getOneShipmentType(id);
+		model.addAttribute("shipmentType", st);
 		return "ShipmentTypeEdit";
 	}
+	/**
+	 * update the method 
+	 */
 
-	@RequestMapping(value="/update",method=RequestMethod.POST)
-	public String updateShipmentType(@ModelAttribute ShipmentType shipmentType,
-			Model model
-			) {
-		String msg= "  ShipmentType  '"+shipmentType.getShipId()+"'  updated";
-		model.addAttribute("list",msg);
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	public String updateShipmentType(
+									 @ModelAttribute ShipmentType shipmentType, 
+									 Model model) {
+		String msg = "  ShipmentType  '" + shipmentType.getShipId() + "'  updated";
+		model.addAttribute("list", msg);
 		service.updateShipmentType(shipmentType);
 		return "ShipmentTypeEdit";
 	}
-/**
- * Excel method 
- * method Type:GET,URL:/excel
- * 
- */@RequestMapping("/excel")
+
+	/**
+	 * view method
+	 */
+	@RequestMapping("/view")
+	public String showOneShipmentType(
+									  @RequestParam("sid") Integer id, 
+									  Model model) {
+		ShipmentType st = service.getOneShipmentType(id);
+		model.addAttribute("ob", st);
+		return "ShipmentTypeView";
+
+	}
+
+	/**
+	 * Excel method method Type:GET,URL:/excel
+	 * 
+	 */
+	@RequestMapping("/excel")
 	public ModelAndView showExcel() {
-		ModelAndView m=new ModelAndView();
+		ModelAndView m = new ModelAndView();
 		m.setView(new ShipmentTypeExcelView());
-		//fetch from db
-		List<ShipmentType> list=service.getAllShipmentType();
-		m.addObject("list",list);
+		// fetch from db
+		List<ShipmentType> list = service.getAllShipmentType();
+		m.addObject("list", list);
 		return m;
 
 	}
 
+	/**
+	 * add method for PDF View
+	 * 
+	 */
+	@RequestMapping("/pdf")
+	public ModelAndView showPdf() {
+		ModelAndView m = new ModelAndView();
+		m.setView(new ShipmentTypePdfView());
+		List<ShipmentType> list = service.getAllShipmentType();
+		m.addObject("list", list);
+		return m;
 
-
+	}
 }

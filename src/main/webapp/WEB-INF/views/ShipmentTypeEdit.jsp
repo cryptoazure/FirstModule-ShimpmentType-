@@ -7,7 +7,7 @@
 	<h3>
 		<br>Shipment Type Register Page<br>
 	</h3>
-	<form:form action="edit" method="post" modelAttribute="shipmentType">
+	<form:form action="edit" method="POST" modelAttribute="shipmentType">
 		<pre>
 		Shipment Id:
 		<form:input path="shipId" readonly="true" />
