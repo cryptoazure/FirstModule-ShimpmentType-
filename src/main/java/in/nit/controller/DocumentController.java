@@ -23,7 +23,7 @@ public class DocumentController {
 
 	// 1.show Document page
 	@RequestMapping("/show")
-	public String showUplpadPage(Model model) {
+	public String showUploadPage(Model model) {
 		List<Object[]> list = service.getFieldAndNames();
 		model.addAttribute("list", list);
 		return "Documents";
@@ -33,8 +33,8 @@ public class DocumentController {
 	 * method for upload the document method type="GET" URL:upload
 	 */
 	@RequestMapping("/upload")
-	public String showUploadPage(
-								@RequestParam Integer fileId,
+	public String doUploadPage(
+								@RequestParam Integer fileId, 
 								@RequestParam CommonsMultipartFile fileOb, 
 								Model model) {
 		if (fileOb != null) {
@@ -49,22 +49,20 @@ public class DocumentController {
 
 		return "redirect:show";
 	}
+
 	@RequestMapping("/download")
-	public void doDownload(
-						   @RequestParam Integer fid,
-						   HttpServletResponse resp
-			              ) {
-	//read one object based on ID
-		Document doc=service.getOneDocument(fid);
-		resp.addHeader("Content:Disposition", "attachment;filename="+doc.getFileName());
+	public void doDownload(@RequestParam Integer fid, HttpServletResponse resp) {
+		// read one object based on ID
+		Document doc = service.getOneDocument(fid);
+		resp.addHeader("Content:Disposition", "attachment;filename=" + doc.getFileName());
 		try {
-			//copy data to os
+			// copy data to os
 			FileCopyUtils.copy(doc.getFileData(), resp.getOutputStream());
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 }

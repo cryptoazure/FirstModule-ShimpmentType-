@@ -15,18 +15,19 @@ public class Uom {
 	@GeneratedValue
 	@Column(name="uid")
 	private Integer uomId;
+	
 	@Column(name="utype")
 	private String uomType;
+	
 	@Column(name="umod")
 	private String uomMod;
+	
 	@Column(name="udesc")
 	private String uomDesc;
+	
+	
 	public Integer getUomId() {
 		return uomId;
-	}
-	public Uom(Integer uomId) {
-		super();
-		this.uomId = uomId;
 	}
 	public void setUomId(Integer uomId) {
 		this.uomId = uomId;
@@ -49,13 +50,12 @@ public class Uom {
 	public void setUomDesc(String uomDesc) {
 		this.uomDesc = uomDesc;
 	}
-	
-	public Uom() {
-		super();
-	}
 	@Override
 	public String toString() {
 		return "Uom [uomId=" + uomId + ", uomType=" + uomType + ", uomMod=" + uomMod + ", uomDesc=" + uomDesc + "]";
+	}
+	public Uom() {
+		super();
 	}
 	
 	

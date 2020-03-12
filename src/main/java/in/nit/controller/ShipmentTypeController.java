@@ -2,6 +2,8 @@ package in.nit.controller;
 
 import java.util.List;
 
+import javax.servlet.ServletContext;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import in.nit.model.ShipmentType;
 import in.nit.service.IShipmentTypeService;
+import in.nit.util.ShipmentTypeUtil;
 import in.nit.view.ShipmentTypeExcelView;
 import in.nit.view.ShipmentTypePdfView;
 
@@ -22,6 +25,10 @@ public class ShipmentTypeController {
 
 	@Autowired
 	private IShipmentTypeService service;
+	@Autowired
+	private ServletContext context;
+	@Autowired
+	private ShipmentTypeUtil util;
 
 	/**
 	 * shipment/register this method is used to display ShipmentType register page
@@ -44,9 +51,7 @@ public class ShipmentTypeController {
 	 */
 
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public String saveShipmentType(
-								   @ModelAttribute ShipmentType shipmentType,
-								   Model model) {
+	public String saveShipmentType(@ModelAttribute ShipmentType shipmentType, Model model) {
 		Integer id = service.saveShipmentType(shipmentType);
 		String message = "ShipmentType '" + id + "'+saved...";
 		model.addAttribute("msg", message);
@@ -74,9 +79,7 @@ public class ShipmentTypeController {
 	 * @return
 	 */
 	@RequestMapping("/delete")
-	public String deleteShipmentType(
-									@RequestParam("sid") Integer id, 
-									Model model) {
+	public String deleteShipmentType(@RequestParam("sid") Integer id, Model model) {
 		service.deleteShipmentType(id);
 		String message = "ShipmentType  '" + id + "'   deleted";
 		model.addAttribute("message", message);
@@ -93,24 +96,17 @@ public class ShipmentTypeController {
 	 * 
 	 */
 	@RequestMapping("/edit")
-	public String showEditPage(
-							   @RequestParam("sid") Integer id, 
-							   Model model) {
+	public String showEditPage(@RequestParam("sid") Integer id, Model model) {
 		ShipmentType st = service.getOneShipmentType(id);
 		model.addAttribute("shipmentType", st);
 		return "ShipmentTypeEdit";
 	}
-	/**
-	 * update the method 
-	 */
 
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public String updateShipmentType(
-									 @ModelAttribute ShipmentType shipmentType, 
-									 Model model) {
-		String msg = "  ShipmentType  '" + shipmentType.getShipId() + "'  updated";
-		model.addAttribute("list", msg);
+	public String updateShipmentType(@ModelAttribute ShipmentType shipmentType, Model model) {
 		service.updateShipmentType(shipmentType);
+		String msg = "ShipmentType '" + shipmentType.getShipId() + "' updated";
+		model.addAttribute("list", msg);
 		return "ShipmentTypeEdit";
 	}
 
@@ -118,9 +114,7 @@ public class ShipmentTypeController {
 	 * view method
 	 */
 	@RequestMapping("/view")
-	public String showOneShipmentType(
-									  @RequestParam("sid") Integer id, 
-									  Model model) {
+	public String showOneShipmentType(@RequestParam("sid") Integer id, Model model) {
 		ShipmentType st = service.getOneShipmentType(id);
 		model.addAttribute("ob", st);
 		return "ShipmentTypeView";
@@ -154,5 +148,14 @@ public class ShipmentTypeController {
 		m.addObject("list", list);
 		return m;
 
+	}
+
+	@RequestMapping("/charts")
+	public String showCharts() {
+		List<Object[]> list = service.getShipmentModeCount();
+		String path = context.getRealPath("/");
+		util.generatePie(path, list);
+		util.generateBar(path, list);
+		return "ShipmentTypeCharts";
 	}
 }

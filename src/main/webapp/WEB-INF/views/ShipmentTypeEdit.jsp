@@ -7,7 +7,7 @@
 	<h3>
 		<br>Shipment Type Register Page<br>
 	</h3>
-	<form:form action="edit" method="POST" modelAttribute="shipmentType">
+	<form:form action="update" method="POST" modelAttribute="shipmentType">
 		<pre>
 		Shipment Id:
 		<form:input path="shipId" readonly="true" />
@@ -19,24 +19,24 @@
 			<form:option value="Train">Train</form:option>
 			<form:option value="Ship">Ship</form:option>
 	    </form:select>
-	    Shipment Code:
-	    	<form:input path="shipCode" />
-	Enable Shipment:
-	       <form:select path="enbShip">
-	       	<form:option value="">--select--</form:option>
-	       	<form:option value="Yes">Yes</form:option>
-	       	<form:option value="No">No</form:option> 
-	       </form:select>
-	 Shipment Grade:
-	  		<form:radiobutton path="shipGrad" value="A" />A
-		    <form:radiobutton path="shipGrad" value="B" />B
-		    <form:radiobutton path="shipGrad" value="C" />C
+		Shipment Code:
+		    	<form:input path="shipCode" />
+		Enable Shipment:
+		       <form:select path="enbShip">
+		       	<form:option value="">--select--</form:option>
+		       	<form:option value="Yes">Yes</form:option>
+		       	<form:option value="No">No</form:option> 
+		       </form:select>
+		Shipment Grade:
+		  		<form:radiobutton path="shipGrad" value="A" />A
+			    <form:radiobutton path="shipGrad" value="B" />B
+			    <form:radiobutton path="shipGrad" value="C" />C
 		Description:
 		<form:textarea path="shipDesc" />
 			<input type="submit" value="UPDATE" />
 	
 	</pre>
 	</form:form>
-	${msg}
+	${list}
 </body>
 </html>

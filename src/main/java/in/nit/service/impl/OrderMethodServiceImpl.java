@@ -1,5 +1,7 @@
 package in.nit.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,5 +19,11 @@ public class OrderMethodServiceImpl implements IOrderMethodService {
 		
 		return dao.saveOrderMethod(ob);
 	}
-
+	
+	
+	@Transactional(readOnly = true)
+	public List<Object[]> getOrderIdAndOrderCode(String type) {
+		return dao.getOrderIdAndOrderCode("Sale");
+	}
+	 
 }

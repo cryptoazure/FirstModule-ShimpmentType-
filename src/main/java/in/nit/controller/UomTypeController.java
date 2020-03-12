@@ -2,6 +2,8 @@ package in.nit.controller;
 
 import java.util.List;
 
+import javax.servlet.ServletContext;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,16 +11,23 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
-import in.nit.model.ShipmentType;
 import in.nit.model.Uom;
 import in.nit.service.IUomTypeService;
+import in.nit.util.ShipmentTypeUtil;
+import in.nit.view.UomTypeExcelView;
 
 @Controller
 @RequestMapping("/uom")
 public class UomTypeController {
 	@Autowired
 	private IUomTypeService service;
+	
+	@Autowired
+	private ServletContext context;
+	@Autowired
+	private ShipmentTypeUtil util;
 
 	/***
 	 * Operation for Uom Type Module
@@ -27,18 +36,22 @@ public class UomTypeController {
 	 */
 
 	@RequestMapping("/register")
-	public String showUomTypePage() {
+	public String showUomTypePage(Model model) {
+		//form backing object
+		model.addAttribute("uom",new Uom());
 		return "UomTypeRegister";
 	}
 
 	/*
 	 * save operation for Uom module
 	 */
-	@RequestMapping(value = "/saveuom", method = RequestMethod.POST)
-	public String saveUom(@ModelAttribute Uom uom, Model model) {
+	@RequestMapping(value = "/save", method = RequestMethod.POST)
+	public String saveUom(
+						  @ModelAttribute Uom uom, 
+						  Model model) {
 		Integer id = service.saveUom(uom);
 		String message = "UomType  '" + id + "'     +saved...";
-		model.addAttribute("uom", message);
+		model.addAttribute("message", message);
 
 		return "UomTypeRegister";
 	}
@@ -72,25 +85,58 @@ public class UomTypeController {
 		model.addAttribute("list", list);
 		return "UomTypeData";
 	}
-	
-	  @RequestMapping("/edit") 
-	  public String editUomType(
-			  				   @RequestParam("sid")Integer id,
-			  				   Model model ) {
-		  Uom uid=service.getUomType(id); 
-		  model.addAttribute("uom",uid); 
-		  return "UomTypeEdit";
-	  
-	  }
-	  @RequestMapping(value="/update" ,method=RequestMethod.POST)
-	  public String updateUomType(
-			  					  @ModelAttribute Uom uom,Model model
-			  ) {
-		  String msg="UomType   '"+uom.getUomId()+"' +updated";
-		  model.addAttribute("list",msg);
-		  service.updateUomType(uom);
-		  return "UomTypeEdit";
-	  }
-	  
+
+	@RequestMapping("/edit") 
+	public String editUomType(
+							  @RequestParam("uid")Integer id,
+							  Model model ) {
+		Uom um=service.getOneUom(id); 
+		model.addAttribute("uom", um);
+		return "UomTypeEdit";
 
 	}
+	
+	@RequestMapping(value="/update" ,method=RequestMethod.POST)
+	public String updateUomType(
+			                    @ModelAttribute Uom uom, 
+								Model model
+			) {
+		service.updateUomType(uom);
+		String msg="UomType'"+uom.getUomId()+"' +updated...";
+		model.addAttribute("list",msg);
+
+		return "UomTypeEdit";
+	}
+	/**
+	 * view method
+	 */
+	@RequestMapping("/view")
+	public String showOneUomType(
+								@RequestParam("uid")Integer id, 
+								Model model) {
+		Uom uid=service.getOneUom(id); 
+		model.addAttribute("uom",uid); 
+		return "UomTypeView";
+
+	}
+
+	@RequestMapping("/excel")
+	public ModelAndView showExcel() {
+		ModelAndView m = new ModelAndView();
+		m.setView(new UomTypeExcelView());
+		// fetch from db
+		List<Uom> list = service.getAllUom();
+		m.addObject("list", list);
+		return m;
+
+	}
+	@RequestMapping("/charts")
+	public String showCharts() {
+		List<Object[]> list=service.getUomTypeCount();
+		String path = context.getRealPath("/");
+		util.generatePie(path, list);
+		util.generateBar(path, list);
+		return "UomTypeCharts";
+	}
+
+}

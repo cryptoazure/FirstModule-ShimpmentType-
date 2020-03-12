@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import in.nit.dao.IUomTypeDao;
-import in.nit.model.ShipmentType;
 import in.nit.model.Uom;
 import in.nit.service.IUomTypeService;
 @Service
@@ -39,9 +38,9 @@ public class UomTypeServiceImpl implements IUomTypeService {
 	}
 
 	@Transactional(readOnly=true)
-	public Uom getUomType(Integer id) {	
+	public Uom getOneUom(Integer id) {	
 
-		return dao.getUomType(id);
+		return dao.getOneUom(id);
 
 	}
 
@@ -52,6 +51,16 @@ public class UomTypeServiceImpl implements IUomTypeService {
 
 	}
 
+	
+	@Transactional(readOnly = true)
+	public List<Object[]> getUomTypeCount() {
+		return dao.getUomTypeCount();
+	}
 
+	@Transactional(readOnly=true)
+	public List<Object[]> getUomIdAndUomModel() {
+		
+		return dao.getUomIdAndUomModel();
+	}
 
 }

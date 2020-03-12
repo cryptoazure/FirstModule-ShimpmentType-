@@ -9,7 +9,8 @@ public interface IUomTypeDao {
 	List<Uom> getAllUom();
 	public void deleteUomType(Integer ide);
 	
-	Uom getUomType(Integer id);
+	Uom getOneUom(Integer id);
 	void updateUomType(Uom ob);
-
+	public List<Object[]> getUomTypeCount();
+	public List<Object[]> getUomIdAndUomModel();
 }
